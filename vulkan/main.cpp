@@ -1,45 +1,75 @@
-#include <iostream>
-#include <glm.hpp>
-
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-#define WINDOW_WIDTH 1920
-#define WINDOW_HEIGHT 1080
+#include <iostream>
+#include <stdexcept>
+#include <cstdlib>
 
-GLFWwindow* window = NULL;
+const uint32_t WIDTH = 800;
+const uint32_t HEIGHT = 600;
 
-void GLFW_KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+class HelloTriangleApplication
 {
-	if ((key == GLFW_KEY_ESCAPE) && (action == GLFW_PRESS)) glfwSetWindowShouldClose(window, GLFW_TRUE);
-}
+public:
+	void run()
+	{
+		initWindow();
+		initVulkan();
+		mainLoop();
+		cleanup();
+	}
+
+private:
+
+	GLFWwindow* window;
+
+	void initWindow()
+	{
+
+		glfwInit();
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+		window = glfwCreateWindow(800, 600, "Vulkan", nullptr, nullptr);
+
+	}
+
+	void initVulkan()
+	{
+
+	}
+
+	void mainLoop()
+	{
+		while (!glfwWindowShouldClose(window))
+		{
+			glfwPollEvents();
+		}
+	}
+
+	void cleanup()
+	{
+		glfwDestroyWindow(window);
+
+		glfwTerminate();
+	}
+
+};
 
 int main()
 {
+	HelloTriangleApplication app;
 
-	if (!glfwInit()) return 1;
-	
-	if (!glfwVulkanSupported()) return 1;
-
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Tutorial 01", NULL, NULL);
-
-	if (!window)
+	try
 	{
-		glfwTerminate();
-		exit(EXIT_FAILURE);
+		app.run();
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return EXIT_FAILURE;
 	}
 
-	glfwSetKeyCallback(window, GLFW_KeyCallback);
-
-	while (!glfwWindowShouldClose(window))
-	{
-		glfwPollEvents();
-	}
-
-	return 0;
+	return EXIT_SUCCESS;
 
 }
