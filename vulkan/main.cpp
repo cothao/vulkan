@@ -1,5 +1,5 @@
 #define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
+//#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <chrono>
@@ -42,9 +42,9 @@ const std::vector<const char*> validationLayers =
 
 struct UniformBufferObject
 {
-	alignas(16) glm::mat4 model;
-	alignas(16) glm::mat4 view;
-	alignas(16) glm::mat4 proj;
+	 glm::mat4 model;
+	 glm::mat4 view;
+	 glm::mat4 proj;
 };
 
 struct Vertex
@@ -55,7 +55,7 @@ struct Vertex
     static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
         std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
 
-        attributeDescriptions[0].binding = 0;
+        attributeDescriptions[0].binding = 0; // testing1234
         attributeDescriptions[0].location = 0;
         attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
         attributeDescriptions[0].offset = offsetof(Vertex, pos);
